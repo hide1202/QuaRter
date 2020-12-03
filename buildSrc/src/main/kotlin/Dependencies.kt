@@ -33,6 +33,8 @@ object AndroidX {
         const val lifecycle = "2.2.0"
         const val hilt = "1.0.0-alpha02"
         const val paging = "3.0.0-alpha09"
+        const val cameraX = "1.0.0-beta12"
+        const val cameraView = "1.0.0-alpha19"
     }
 
     const val coreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
@@ -49,6 +51,10 @@ object AndroidX {
     const val hiltKapt = "androidx.hilt:hilt-compiler:${Versions.hilt}"
 
     const val paging = "androidx.paging:paging-runtime:${Versions.paging}"
+
+    const val camera2 = "androidx.camera:camera-camera2:${Versions.cameraX}"
+    const val cameraLifecycle = "androidx.camera:camera-lifecycle:${Versions.cameraX}"
+    const val cameraView = "androidx.camera:camera-view:${Versions.cameraView}"
 }
 
 object Libraries {
@@ -61,6 +67,7 @@ object Libraries {
         const val timber = "4.7.1"
         const val shimmer = "0.5.0"
         const val dagger = "2.29.1"
+        const val zxing = "3.3.0"
     }
 
     const val material = "com.google.android.material:material:${Versions.material}"
@@ -81,6 +88,9 @@ object Libraries {
     const val dagger_kapt = "com.google.dagger:dagger-compiler:${Versions.dagger}"
     const val hilt = "com.google.dagger:hilt-android:${CommonVersions.hilt}"
     const val hilt_kapt = "com.google.dagger:hilt-android-compiler:${CommonVersions.hilt}"
+
+    const val zxingCore = "com.google.zxing:core:${Versions.zxing}"
+    const val zxingAndroidCore = "com.google.zxing:android-core:${Versions.zxing}"
 }
 
 object TestLibraries {

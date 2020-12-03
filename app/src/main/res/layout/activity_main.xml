@@ -3,13 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="resultText"
+            type="CharSequence" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-        <SurfaceView
+        <androidx.camera.view.PreviewView
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -25,7 +32,8 @@
             android:gravity="start|center_vertical"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="Hello World!"
+            android:text="@{resultText}"
+            app:gone="@{resultText == null || resultText.length() == 0}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

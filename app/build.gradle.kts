@@ -62,11 +62,16 @@ dependencies {
     implementation(AndroidX.lifecycleLivedata)
     implementation(AndroidX.lifecycleRuntime)
     implementation(AndroidX.paging)
+    implementation(AndroidX.camera2)
+    implementation(AndroidX.cameraLifecycle)
+    implementation(AndroidX.cameraView)
 
     // images
     implementation(Libraries.glide)
     kapt(Libraries.glideCompiler)
     implementation(Libraries.shimmer)
+    implementation(Libraries.zxingCore)
+    implementation(Libraries.zxingAndroidCore)
 
     // logging
     implementation(Libraries.timber)
