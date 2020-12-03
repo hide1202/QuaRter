@@ -1,3 +1,5 @@
+![logo](arts/logo.png)
+
 # QuaRter
 - Application for reading QR code
 
