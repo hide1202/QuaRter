@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     val currentTime = SystemClock.uptimeMillis()
                     if (it != null) {
                         lastVisibleResultTime = currentTime
-                    } else if (currentTime - lastVisibleResultTime < DURATION_VISIBLE_QR_RESULT.inMicroseconds) {
+                    } else if (currentTime - lastVisibleResultTime < DURATION_VISIBLE_QR_RESULT.inMilliseconds) {
                         return@collect
                     }
                     binding.resultText = it?.text?.clickableIfWebUrl()
