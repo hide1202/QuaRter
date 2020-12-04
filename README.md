@@ -9,4 +9,4 @@
 - Android Studio Arctic Fox | 2020.3.1 Canary 1
 
 ## Screenshot
-![screenshot](arts/screenshot.png)
+![screenshot](arts/screenshot.jpg)
