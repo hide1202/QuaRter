@@ -1,6 +1,8 @@
 ![logo](arts/logo.png)
 
 # QuaRter
+![Android CI](https://github.com/hide1202/QuaRter/workflows/Android%20CI/badge.svg?branch=develop)
+
 - Application for reading QR code
 
 ## Prerequisites
