@@ -11,6 +11,7 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import io.viewpoint.quarter.databinding.ActivityMainBinding
@@ -30,6 +31,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.root.setOnApplyWindowInsetsListener { _, insets ->
+            val windowInsets = WindowInsetsCompat.toWindowInsetsCompat(insets)
+            binding.windowInsetsTop = windowInsets.systemWindowInsetTop
+            binding.windowInsetsBottom = windowInsets.systemWindowInsetBottom
+
+            windowInsets
+                .consumeSystemWindowInsets()
+                .toWindowInsets()
+        }
 
         if (allPermissionsGranted()) {
             startCamera()

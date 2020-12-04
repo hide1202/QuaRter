@@ -8,13 +8,36 @@
         <variable
             name="resultText"
             type="CharSequence" />
+
+        <variable
+            name="windowInsetsTop"
+            type="int" />
+
+        <variable
+            name="windowInsetsBottom"
+            type="int" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/top_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@{windowInsetsTop}"
+            tools:layout_constraintGuide_begin="30dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/bottom_guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_end="@{windowInsetsBottom}"
+            tools:layout_constraintGuide_end="30dp" />
 
         <androidx.camera.view.PreviewView
             android:id="@+id/preview"
@@ -40,7 +63,7 @@
             app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/top_guideline" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/result_container"
@@ -52,7 +75,7 @@
             android:background="@drawable/bg_capture_result"
             android:paddingVertical="16dp"
             app:gone="@{resultText == null || resultText.length() == 0}"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/bottom_guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
