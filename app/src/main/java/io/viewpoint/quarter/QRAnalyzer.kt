@@ -21,6 +21,8 @@ class QRAnalyzer(
 ) : ImageAnalysis.Analyzer {
     private val reader: QRCodeReader = QRCodeReader()
 
+    private var reusedBytes: ByteArray = ByteArray(0)
+
     private val resultChannel = Channel<Result?>()
 
     @SuppressLint("UnsafeExperimentalUsageError")
@@ -29,10 +31,12 @@ class QRAnalyzer(
 
         val buffer = rawImage.planes.getOrNull(0)?.buffer ?: return
         val capacity = buffer.capacity()
-        val bytes = ByteArray(capacity)
-        buffer.get(bytes)
+        if (reusedBytes.size < capacity) {
+            reusedBytes = ByteArray(capacity)
+        }
+        buffer.get(reusedBytes)
         val source = PlanarYUVLuminanceSource(
-            bytes,
+            reusedBytes,
             rawImage.width,
             rawImage.height,
             0,
