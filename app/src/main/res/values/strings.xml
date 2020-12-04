@@ -2,5 +2,6 @@
     <string name="app_name">QuaRter</string>
 
     <string name="permission_denied_message">Permissions not granted by the user.</string>
+    <string name="guide_message">Focus on the QR code to check various information.</string>
     <string name="title_result">Recognize QR code</string>
 </resources>

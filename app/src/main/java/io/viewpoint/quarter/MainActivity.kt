@@ -3,6 +3,7 @@ package io.viewpoint.quarter
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.os.SystemClock
 import android.text.method.LinkMovementMethod
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -16,16 +17,15 @@ import io.viewpoint.quarter.databinding.ActivityMainBinding
 import io.viewpoint.quarter.extensions.clickableIfWebUrl
 import io.viewpoint.quarter.extensions.throttleFirst
 import io.viewpoint.quarter.util.Cameras
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.concurrent.Executors
+import kotlin.time.seconds
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
 
-    private val resultChannel = Channel<CharSequence?>()
+    private val qrAnalyzer = QRAnalyzer(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +40,17 @@ class MainActivity : AppCompatActivity() {
         binding.result.movementMethod = LinkMovementMethod()
 
         lifecycleScope.launch {
-            resultChannel.receiveAsFlow()
-                .throttleFirst(500L)
+            var lastVisibleResultTime = 0L
+            qrAnalyzer.receiveAsFlow()
+                .throttleFirst(100L)
                 .collect {
-                    binding.resultText = it?.clickableIfWebUrl()
+                    val currentTime = SystemClock.uptimeMillis()
+                    if (it != null) {
+                        lastVisibleResultTime = currentTime
+                    } else if (currentTime - lastVisibleResultTime < DURATION_VISIBLE_QR_RESULT.inMicroseconds) {
+                        return@collect
+                    }
+                    binding.resultText = it?.text?.clickableIfWebUrl()
                 }
         }
     }
@@ -83,11 +90,7 @@ class MainActivity : AppCompatActivity() {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 .build()
                 .apply {
-                    setAnalyzer(Executors.newSingleThreadExecutor(), QRAnalyzer {
-                        lifecycleScope.launch {
-                            resultChannel.send(it?.text)
-                        }
-                    })
+                    setAnalyzer(Executors.newSingleThreadExecutor(), qrAnalyzer)
                 }
 
             Cameras.bindCamera(this@MainActivity, preview, analysis)
@@ -95,6 +98,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
+        private val DURATION_VISIBLE_QR_RESULT = 1.seconds
+
         private const val REQUEST_CODE_PERMISSIONS = 0x10
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
     }

@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -39,19 +38,13 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs += "-Xopt-in=kotlin.time.ExperimentalTime"
     }
 }
 
 dependencies {
     implementation(Kotlin.stdLib)
-
-    // DI
-    implementation(Libraries.dagger)
-    implementation(Libraries.hilt)
-    implementation(AndroidX.hiltLifecycle)
-    kapt(Libraries.dagger_kapt)
-    kapt(Libraries.hilt_kapt)
-    kapt(AndroidX.hiltKapt)
+    implementation(Kotlin.coroutinesCore)
 
     // androidx or google
     implementation(AndroidX.coreKtx)
@@ -61,15 +54,11 @@ dependencies {
     implementation(AndroidX.lifecycleViewmodel)
     implementation(AndroidX.lifecycleLivedata)
     implementation(AndroidX.lifecycleRuntime)
-    implementation(AndroidX.paging)
     implementation(AndroidX.camera2)
     implementation(AndroidX.cameraLifecycle)
     implementation(AndroidX.cameraView)
 
     // images
-    implementation(Libraries.glide)
-    kapt(Libraries.glideCompiler)
-    implementation(Libraries.shimmer)
     implementation(Libraries.zxingCore)
     implementation(Libraries.zxingAndroidCore)
 

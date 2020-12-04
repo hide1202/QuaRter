@@ -3,17 +3,25 @@ package io.viewpoint.quarter
 import android.annotation.SuppressLint
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
 import com.google.zxing.BinaryBitmap
 import com.google.zxing.PlanarYUVLuminanceSource
 import com.google.zxing.Result
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 
 
 class QRAnalyzer(
-    private val listener: (Result?) -> Unit
+    private val lifecycleOwner: LifecycleOwner
 ) : ImageAnalysis.Analyzer {
     private val reader: QRCodeReader = QRCodeReader()
+
+    private val resultChannel = Channel<Result?>()
 
     @SuppressLint("UnsafeExperimentalUsageError")
     override fun analyze(image: ImageProxy) {
@@ -36,11 +44,19 @@ class QRAnalyzer(
         val bitmap = BinaryBitmap(HybridBinarizer(source))
 
         try {
-            listener(reader.decode(bitmap))
+            sendResult(reader.decode(bitmap))
         } catch (t: Throwable) {
-            listener(null)
+            sendResult(null)
         } finally {
             image.close()
         }
     }
+
+    private fun sendResult(result: Result?) {
+        lifecycleOwner.lifecycleScope.launch {
+            resultChannel.send(result)
+        }
+    }
+
+    fun receiveAsFlow(): Flow<Result?> = resultChannel.receiveAsFlow()
 }
