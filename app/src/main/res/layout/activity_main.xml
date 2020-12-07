@@ -65,6 +65,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/top_guideline" />
 
+        <ImageView
+            android:id="@+id/recognize_qr_code"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toTopOf="@id/result_container"
+            app:layout_constraintEnd_toEndOf="@id/result_container" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/result_container"
             android:layout_width="0dp"

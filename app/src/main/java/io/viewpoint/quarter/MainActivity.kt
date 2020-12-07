@@ -60,7 +60,8 @@ class MainActivity : AppCompatActivity() {
                     } else if (currentTime - lastVisibleResultTime < DURATION_VISIBLE_QR_RESULT.inMilliseconds) {
                         return@collect
                     }
-                    binding.resultText = it?.text?.clickableIfWebUrl()
+                    binding.resultText = it?.contents?.clickableIfWebUrl()
+                    binding.recognizeQrCode.setImageBitmap(it?.qrCode)
                 }
         }
     }
