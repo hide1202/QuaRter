@@ -1,3 +1,5 @@
+@file:JvmName("CharSequences")
+
 package io.viewpoint.quarter.extensions
 
 import android.text.SpannableStringBuilder
@@ -7,7 +9,7 @@ import androidx.core.text.inSpans
 
 fun CharSequence.clickableIfWebUrl(): CharSequence {
     val text = this.toString()
-    if (!URLUtil.isHttpUrl(toString()) && !URLUtil.isHttpsUrl(toString())) {
+    if (!isWebUrl) {
         return text
     }
 
@@ -17,3 +19,8 @@ fun CharSequence.clickableIfWebUrl(): CharSequence {
     }
     return builder
 }
+
+val CharSequence?.isWebUrl: Boolean
+    get() = this?.let {
+        URLUtil.isHttpUrl(toString()) || URLUtil.isHttpsUrl(toString())
+    } ?: false

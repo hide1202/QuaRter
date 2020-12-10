@@ -13,6 +13,8 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.common.HybridBinarizer
 import com.google.zxing.qrcode.QRCodeReader
 import com.google.zxing.qrcode.QRCodeWriter
+import io.viewpoint.quarter.extensions.clickableIfWebUrl
+import io.viewpoint.quarter.model.UrlMetadata
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -21,8 +23,10 @@ import kotlinx.coroutines.launch
 
 data class QRResult(
     val qrCode: Bitmap,
-    val contents: String
-)
+    val contents: CharSequence
+) {
+    suspend fun getUrlMetadata(): UrlMetadata? = UrlMetadata.from(contents)
+}
 
 class QRAnalyzer(
     private val lifecycleOwner: LifecycleOwner
@@ -75,7 +79,7 @@ class QRAnalyzer(
         val qrCode = encodeAsBitmap(it) ?: return@let null
         QRResult(
             qrCode = qrCode,
-            contents = it.text
+            contents = it.text.clickableIfWebUrl()
         )
     }
 

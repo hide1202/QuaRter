@@ -61,9 +61,12 @@ dependencies {
     // images
     implementation(Libraries.zxingCore)
     implementation(Libraries.zxingAndroidCore)
+    implementation(Libraries.glide)
 
     // logging
     implementation(Libraries.timber)
+
+    implementation(Libraries.jsoup)
 
     testImplementation(TestLibraries.junit)
 

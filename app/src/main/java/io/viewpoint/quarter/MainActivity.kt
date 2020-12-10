@@ -15,7 +15,6 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import io.viewpoint.quarter.databinding.ActivityMainBinding
-import io.viewpoint.quarter.extensions.clickableIfWebUrl
 import io.viewpoint.quarter.extensions.throttleFirst
 import io.viewpoint.quarter.util.Cameras
 import kotlinx.coroutines.flow.collect
@@ -47,7 +46,7 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS)
         }
 
-        binding.result.movementMethod = LinkMovementMethod()
+        binding.resultContainer.result.movementMethod = LinkMovementMethod()
 
         lifecycleScope.launch {
             var lastVisibleResultTime = 0L
@@ -60,7 +59,8 @@ class MainActivity : AppCompatActivity() {
                     } else if (currentTime - lastVisibleResultTime < DURATION_VISIBLE_QR_RESULT.inMilliseconds) {
                         return@collect
                     }
-                    binding.resultText = it?.contents?.clickableIfWebUrl()
+                    binding.resultText = it?.contents
+                    binding.urlMetadata = it?.getUrlMetadata()
                     binding.recognizeQrCode.setImageBitmap(it?.qrCode)
                 }
         }

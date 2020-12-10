@@ -51,6 +51,8 @@ object Libraries {
         const val material = "1.2.1"
         const val timber = "4.7.1"
         const val zxing = "3.3.0"
+        const val jsoup = "1.13.1"
+        const val glide = "4.11.0"
     }
 
     const val material = "com.google.android.material:material:${Versions.material}"
@@ -59,6 +61,10 @@ object Libraries {
 
     const val zxingCore = "com.google.zxing:core:${Versions.zxing}"
     const val zxingAndroidCore = "com.google.zxing:android-core:${Versions.zxing}"
+
+    const val jsoup = "org.jsoup:jsoup:${Versions.jsoup}"
+
+    const val glide = "com.github.bumptech.glide:glide:${Versions.glide}"
 }
 
 object TestLibraries {
