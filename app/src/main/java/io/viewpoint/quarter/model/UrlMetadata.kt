@@ -22,7 +22,11 @@ class UrlMetadata(
                 return null
             }
             return withContext(Dispatchers.IO) {
-                val document = Jsoup.connect(charSequence.toString()).get()
+                val document = try {
+                    Jsoup.connect(charSequence.toString()).get()
+                } catch (t: Throwable) {
+                    return@withContext null
+                }
                 val titleTag = document.getElementsByTag("title").getOrNull(0)
                 val metaTags = document.getElementsByTag("meta")
                     .filter {
